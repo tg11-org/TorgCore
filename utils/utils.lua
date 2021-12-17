@@ -1,4 +1,50 @@
-local M = {}
+local colors = {}
+function getcolors()
+  colors.reset      = "[0m"
+  colors.bold       = "[1m"
+  colors.b          = "[1m"
+  colors.underline  = "[4m"
+  colors.ul         = "[4m"
+  colors.inverse    = "[7m"
+  colors.inv        = "[7m"
+  colors.fgwhite    = "[37mm"
+  colors.fgbwhite   = "[97mm"
+  colors.fggray     = "[90m"
+  colors.fggrey     = "[90m"
+  colors.fgblack    = "[30m"
+  colors.fgred      = "[31m"
+  colors.fglred     = "[91m"
+  colors.fggreen    = "[32m"
+  colors.fglgreen   = "[92m"
+  colors.fgyellow   = "[33m"
+  colors.fglyellow  = "[93m"
+  colors.fgblue     = "[34m"
+  colors.fglblue    = "[94m"
+  colors.fgmagenta  = "[35m"
+  colors.fglmagenta = "[95m"
+  colors.fgcyan     = "[36m"
+  colors.fgteal     = "[96m"
+  colors.bgblack    = "[40m"
+  colors.bggray     = "[100m"
+  colors.bggrey     = "[100m"
+  colors.bglgray    = "[47m"
+  colors.bglgrey    = "[47m"
+  colors.bgwhite    = "[107m"
+  colors.bgred      = "[41m"
+  colors.bglred     = "[101m"
+  colors.bggreen    = "[42m"
+  colors.bglgreen   = "[102m"
+  colors.bgyellow   = "[43m"
+  colors.bglyellow  = "[103m"
+  colors.bgblue     = "[44m"
+  colors.bglblue    = "[104m"
+  colors.bgmagenta  = "[45m"
+  colors.bglmagenta = "[105m"
+  colors.bgcyan     = "[46m"
+  colors.bgteal     = "[106m"
+  return colors
+end
+
 function try(what)
    status, result = pcall(what[1])
    if not status then
@@ -48,9 +94,9 @@ string.endswith = function(self, str)
 	return self:find(str..'$') ~= nil
 end
 
-string.split = function (s, delimiter)
+string.split = function (self, delimiter)
     result = {};
-    for match in (s..delimiter):gmatch("(.-)"..delimiter) do
+    for match in (self..delimiter):gmatch("(.-)"..delimiter) do
         table.insert(result, match);
     end
     return result;
@@ -61,5 +107,35 @@ string.removefirstchar = function(self)
 end
 
 string.removelastchar = function(self)
-  return self:sub(0,string.len(tstr)-1)
+  return self:sub(0,string.len(self)-1)
+end
+
+c = getcolors()
+
+function info_log(message)
+  print(c.fgcyan.."[Torg:"..c.fglmagenta.."Info"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
+end
+
+function warn_log(message)
+  print(c.fgcyan.."[Torg:"..c.fglyellow.."Warning"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
+end
+
+function err_log(message)
+  print(c.fgcyan.."[Torg:"..c.fglred.."Error"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
+end
+
+function fat_log(message)
+  print(c.fgcyan.."[Torg:"..c.fglred.."Fatal"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
+end
+
+function core_log(message)
+  print(c.fgcyan.."[Torg:"..c.fgteal.."Core"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
+end
+
+function cmd_log(message)
+  print(c.fgcyan.."[Torg:"..c.fglyellow.."Commands"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
+end
+
+function perm_log(message)
+  print(c.fgcyan.."[Torg:"..c.fgred.."Permissions"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
 end
