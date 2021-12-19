@@ -18,7 +18,7 @@ function decider(authID, authName, raw_message, playerTable)
 		end
 		reason = raw_message:gsub(toremove, "")
 		command = command_strings[1]
-		deb_log(_deb, authName.." want's to run the command "..command..".")
+		deb_log(_deb, "command "..command.."is being called by "..authName..".")
 		if command == "help" then
 			help(authID, authName, command_strings[2])
 		elseif command == "kick" then
@@ -115,7 +115,7 @@ function kick(kickName, authName, authID, reason, playerTable)
 				reason = "You kave been kicked from the server!"
 			end
 			DropPlayer(kickID, reason)
-			SendChatMessage(-1, "^6The player ^e`"..kickName.."`^6 has been ^4kicked^6 from the server!^r")
+			SendChatMessage(-1, "^6The player ^e`"..kickName.."`^6 has been ^4^lkicked^r^6 from the server!^r")
 		end
 	else
 		SendChatMessage(authID, "^4You do not have a high enough server permission to do that.^r")
@@ -151,7 +151,7 @@ function ban(banName, authName, authID, reason, playerTable)
 		end
 		writeBlacklist(banName, 0)
 		writeBan(banName, reason)
-		SendChatMessage(-1, "^6The player ^e`"..banName.."`^6 has been ^4banned^6 from the server!^r")
+		SendChatMessage(-1, "^6The player ^e`"..banName.."`^6 has been ^4^lbanned^r^6 from the server!^r")
 		return 2
 	else
 		SendChatMessage(authID, "^4You do not have a high enough server permission to do that.^r")
@@ -169,7 +169,7 @@ function unban(banName, authName, authID)
 			return 0
 		end
 		writeBlacklist(banName, 1)
-		SendChatMessage(-1, "^6The player ^e`"..banName.."`^6 has been ^4unbanned^6 from the server!^r")
+		SendChatMessage(-1, "^6The player ^e`"..banName.."`^6 has been ^4^lunbanned^r^6 from the server!^r")
 		return 2
 	else
 		SendChatMessage(authID, "^4You do not have a high enough server permission to do that.^r")
