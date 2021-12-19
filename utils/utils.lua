@@ -7,8 +7,8 @@ function getcolors()
   colors.ul         = "[4m"
   colors.inverse    = "[7m"
   colors.inv        = "[7m"
-  colors.fgwhite    = "[37mm"
-  colors.fgbwhite   = "[97mm"
+  colors.fgwhite    = "[37m"
+  colors.fgbwhite   = "[97m"
   colors.fggray     = "[90m"
   colors.fggrey     = "[90m"
   colors.fgblack    = "[30m"
@@ -86,6 +86,41 @@ function loadWordlist()
   return x
 end
 
+function loadBlacklist()
+  y = linesfrom("./Resources/Server/TorgCore/blacklist.txt")
+  return y
+end
+
+function writeBlacklist(alteration, _type)
+  local _content = loadBlacklist()
+  if _type == 0 then  -- 0 is add
+    local f = io.open("./Resources/Server/TorgCore/blacklist.txt", "a")
+    f:write("\n"..alteration)
+    f:close()
+    return 0
+  elseif _type == 1 then -- 1 is remove
+    local f = io.open("./Resources/Server/TorgCore/blacklist.txt", "w")
+    f:write("")
+    f:close()
+    local f = io.open("./Resources/Server/TorgCore/blacklist.txt", "a")
+    for _,line in ipairs(_content) do
+      if line ~= alteration then
+        f:write(line)
+      end
+    end
+    f:close()
+    return 0
+  else
+    return 1
+  end
+end
+
+function writeBan(name, reason)
+  local f = io.open("./Resources/Server/TorgCore/bans/"..name..".txt", "w")
+  formatted = "["..os.date().."]"..name.." was banned for: "..reason
+  f:write("")
+end
+
 string.startswith = function(self, str)
   return self:find('^'..str) ~= nil
 end
@@ -112,6 +147,12 @@ end
 
 c = getcolors()
 
+function deb_log(dolog, message)
+  if dolog == true then
+    print(c.fgcyan.."[Torg:"..c.fgbwhite.."Debug"..c.fgcyan.."] "..c.reset..c.fglyellow..message..c.reset)
+  end
+end
+
 function info_log(message)
   print(c.fgcyan.."[Torg:"..c.fglmagenta.."Info"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
 end
@@ -133,7 +174,7 @@ function core_log(message)
 end
 
 function cmd_log(message)
-  print(c.fgcyan.."[Torg:"..c.fglyellow.."Commands"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
+  print(c.fgcyan.."[Torg:"..c.fgyellow.."Commands"..c.fgcyan.."] "..c.reset..c.fggreen..message..c.reset)
 end
 
 function perm_log(message)
