@@ -117,8 +117,9 @@ end
 
 function writeBan(name, reason)
   local f = io.open("./Resources/Server/TorgCore/bans/"..name..".txt", "w")
-  formatted = "["..os.date().."]"..name.." was banned for: "..reason
-  f:write("")
+  formatted = "["..os.date().."] "..name.." was banned for:"..reason
+  f:write(formatted)
+  f:close()
 end
 
 string.startswith = function(self, str)
