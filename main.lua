@@ -29,7 +29,6 @@ local ReloadDelay = 600000
 -- you would want to do it in all of the files
 
 _deb = true
-deb_log(_deb, "Debuggin Enabled")
 --=================================================================
 -- DO NOT TOUCH BEYOND THIS POINT 
 --=================================================================
@@ -38,6 +37,7 @@ package.path = 'Resources/Server/TorgCore/;Resources/Server/TorgCore/lua/console
 package.cpath = ''
 require("/utils/utils")
 core_log("Loading Modules...")
+deb_log(_deb, "Debuggin Enabled")
 require("/utils/commands")
 require("/utils/permissions")
 
@@ -202,15 +202,8 @@ function onPlayerDisconnect(playerID)
 	playerTable[playerID] = nil
 end
 
-function autoReload()
-	deb_log(_deb, "Reloading Data...")
-	onInit()
-	Sleep(ReloadDelay)
-end
-
-CreateThread("autoReload", 1)
 RegisterEvent("onPlayerAuth","onPlayerAuth")
 RegisterEvent("onPlayerJoin","newJoin")
 RegisterEvent("onChatMessage","onChatMessage")
 RegisterEvent("onPlayerDisconnect","onPlayerDisconnect")
-RegisterEvent("onPlayerJoin","delayedWelcome")
+--RegisterEvent("onPlayerJoin","delayedWelcome")
